@@ -15,6 +15,7 @@ def train(save_path):
 
     model = Classifier(
         model=LinearRegression(),
+        model_type='regression',
         x=x,
         y=y,
         test_size=.2
