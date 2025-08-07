@@ -20,7 +20,7 @@ pip install -r requirements.txt
 - #### [Random Forest](5%20-%20Random%20Forest)
 - #### [Nearest Neighbors (KNN)](6%20-%20Nearest%20Neighbors%20(KNN))
 - #### [Naive Bayes](7%20-%20Naive%20Bayes)
-- #### [K Means Clustering](8%20-%20K Means%20Clustering)
+- #### [K Means Clustering](8%20-%20K%20Means%20Clustering)
 - #### [DBSCAN](9%20-%20DBSCAN)
 
 
