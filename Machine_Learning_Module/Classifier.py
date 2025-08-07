@@ -12,12 +12,17 @@ class Classifier:
         if isinstance(model, str):
             self.model = joblib.load(model)
             self.is_train = False
+            self.is_unsupervised = False
         else:
             self.model = model
             self.test_size = test_size
             self.is_train = True
-
-            self.x_train, self.x_test, self.y_train, self.y_test = self.split_data(x, y)
+            if y is None:
+                self.x_train, self.x_test = self.split_data(x)
+                self.is_unsupervised = True
+            else:
+                self.x_train, self.x_test, self.y_train, self.y_test = self.split_data(x, y)
+                self.is_unsupervised = False
 
     @staticmethod
     def model_train_check(func):
@@ -30,13 +35,13 @@ class Classifier:
         return wrapper
 
     @model_train_check
-    def split_data(self, x, y):
-        if self.model_type == "classification":
-            stratify = y
+    def split_data(self, *args):
+        if self.model_type == "classification" and len(args) == 2:
+            stratify = args[1]
         else:
             stratify = None
         result = train_test_split(
-            x, y,
+            *args,
             test_size=self.test_size,
             random_state=42,
             stratify=stratify
@@ -45,7 +50,10 @@ class Classifier:
 
     @model_train_check
     def train(self):
-        self.model.fit(self.x_train, self.y_train)
+        if self.is_unsupervised:
+            self.model.fit(self.x_train)
+        else:
+            self.model.fit(self.x_train, self.y_train)
 
     def set_grid_search(self, **kwargs):
         grid_search = GridSearchCV(self.model, kwargs, cv=5)

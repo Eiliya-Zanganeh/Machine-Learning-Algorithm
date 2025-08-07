@@ -34,7 +34,6 @@ def train(save_path):
         model=KMeans(n_clusters=4),
         model_type='classification',
         x=x,
-        y=y,
         test_size=.2
     )
 
