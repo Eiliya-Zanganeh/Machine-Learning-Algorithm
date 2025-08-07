@@ -1,6 +1,6 @@
 import joblib
 from numpy import array
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -46,6 +46,11 @@ class Classifier:
     @model_train_check
     def train(self):
         self.model.fit(self.x_train, self.y_train)
+
+    def set_grid_search(self, **kwargs):
+        grid_search = GridSearchCV(self.model, kwargs, cv=5)
+        grid_search.fit(self.x_train, self.y_train)
+        self.model = grid_search.best_estimator_
 
     def predict(self, *args, **kwargs):
         args = list(args)
